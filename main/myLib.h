@@ -61,67 +61,67 @@ typedef struct coin_t{
 
 const coin_t EUR_2 = {
   "2 EURA",
-  839,
+  840,
   0,
   0,
-  25.75,
-  8.5f
+  25.77,
+  8.45f
 };
 const coin_t EUR_1 = {
   "1 EURO",
-  846,
+  847,
   0,
   0,
-  23.25f,
+  23.33f,
   7.50f
 };
 const coin_t CENT_50 = {
   "50 CENTI",
-  834,
+  833,
   0,
   0,
-  23.90f, //rucno promijenjeno
-  7.80f
+  23.93f, //rucno promijenjeno
+  7.73f
 };
 const coin_t CENT_20 = {
   "20 CENTI",
   842,
   0,
   0,
-  22.25f,
-  5.74f
+  22.32f,
+  5.73f
 };
 const coin_t CENT_10 = {
   "10 CENTI",
+  858,
   0,
   0,
-  0,
-  19.75f,
-  4.10f
+  19.68f,
+  4.17f
 };
 const coin_t CENT_5 = {
   "5 CENTI",
+  849,
   0,
   0,
-  0,
-  21.25f,
-  3.92f
+  21.34f,
+  3.90f
 };
 const coin_t CENT_2 = {
   "2 CENTA",
+  868,
   0,
   0,
-  0,
-  18.75f,
-  3.06f
+  18.42f,
+  3.13f
 };
 const coin_t CENT_1 = {
   "1 CENT",
+  899,
   0,
   0,
-  0,
-  16.25f,
-  2.30f
+  15.13f,
+  2.33f
 };
 
 

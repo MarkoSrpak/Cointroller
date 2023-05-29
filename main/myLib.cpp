@@ -21,80 +21,6 @@ void blinkRed(){
       delay(40);
 }
 
-//--------------------------------- TEST COIN ------------------------------------//
-coin_t test_coin;
-
-coin_t savedCoins[8];
-void loadCoins(){
-  savedCoins[0] = EUR_2;
-  savedCoins[1] = EUR_1;
-  savedCoins[2] = CENT_50;
-  savedCoins[3] = CENT_20;
-  savedCoins[4] = CENT_10;
-  savedCoins[5] = CENT_5;
-  savedCoins[6] = CENT_2;
-  savedCoins[7] = CENT_1;
-}
-
-float coinProbability[8];
-void calculateCoins(){
-  uint32_t deltaCoil1, deltaCoil2;
-  float deltaSizePot, deltaSizeIR, deltaMass;
-  float probCoil1, probCoil2, probSizePot, probSizeIR, probMass;
-  for(uint8_t i = 0; i < 8; i++){
-    deltaCoil1 = abs(savedCoins[i].coil1 - test_coin.coil1);
-    if(deltaCoil1 <= 2) probCoil1 = 100; //68.2% skalirano na 100
-    else if(deltaCoil1 <= 4) probCoil1 = 40; //27.2% skalirano za isti faktor
-    else if(deltaCoil1 <= 6) probCoil1 = 6;  //4.1% skalirano za isti faktor
-    else probCoil1 = 0.3f;
-
-    deltaCoil2 = abs(savedCoins[i].coil2 - test_coin.coil2);
-    if(deltaCoil2 <= 2) probCoil2 = 100; //68.2% skalirano na 100
-    else if(deltaCoil2 <= 4) probCoil2 = 40; //27.2% skalirano za isti faktor
-    else if(deltaCoil2 <= 6) probCoil2 = 6;  //4.1% skalirano za isti faktor
-    else probCoil2 = 0.3f;
-
-    deltaSizePot = abs(savedCoins[i].sizePot - test_coin.sizePot);
-    if(deltaSizePot <= 0.7f) probSizePot = 100; //68.2% skalirano na 100
-    else if(deltaSizePot <= 1.4f) probSizePot = 40; //27.2% skalirano za isti faktor
-    else if(deltaSizePot <= 2.1f) probSizePot = 6;  //4.1% skalirano za isti faktor
-    else probSizePot = 0.3f;
-
-    deltaSizeIR = abs(savedCoins[i].sizeIR - test_coin.sizeIR);
-    if(deltaSizeIR <= 0.7f) probSizeIR = 100; //68.2% skalirano na 100
-    else if(deltaSizeIR <= 1.4f) probSizeIR = 40; //27.2% skalirano za isti faktor
-    else if(deltaSizeIR <= 2.1f) probSizeIR = 6;  //4.1% skalirano za isti faktor
-    else probSizeIR = 0.3f;
-
-    deltaMass = abs(savedCoins[i].mass - test_coin.mass);
-    if(deltaMass <= 0.17f) probMass = 100; //68.2% skalirano na 100
-    else if(deltaMass <= 0.34f) probMass = 40; //27.2% skalirano za isti faktor
-    else if(deltaMass <= 0.51f) probMass = 6;  //4.1% skalirano za isti faktor
-    else probMass = 0.3f;
-
-    coinProbability[i] = exp((log(probCoil1)  + log(probSizeIR) + log(probMass)) / 3.0);
-    Serial.print("Vjerojatnost da je kovanica ");
-    Serial.print(savedCoins[i].name);
-    Serial.print(" iznosi ");
-    Serial.print(coinProbability[i]);
-    Serial.println("%");
-  }
-}
-
-void printCoin(){
-  Serial.println(test_coin.name);
-  Serial.print("Prva mjera vodljivosti kovanice = ");
-  Serial.println(test_coin.coil1);
-//  Serial.print("Druga mjera vodljivosti kovanice = ");
-//  Serial.println(test_coin.coil2);
-//  Serial.print("Promjer kovanice potenciometrom = ");
-//  Serial.println(test_coin.sizePot);
-  Serial.print("Promjer kovanice IR diodom = ");
-  Serial.println(test_coin.sizeIR);
-  Serial.print("Masa kovanice u gramima = ");
-  Serial.println(test_coin.mass);
-}
-
 //------------------------------- SERVO MOTORI -----------------------------------//
 Servo servoSort[8];
 Servo servoTop;
@@ -127,6 +53,162 @@ void setupServos(){
 //  servoTop.write(0);
   delay(100);
 }
+
+
+//--------------------------------- TEST COIN ------------------------------------//
+coin_t test_coin;
+
+coin_t savedCoins[8];
+void loadCoins(){
+  savedCoins[0] = EUR_2;
+  savedCoins[1] = EUR_1;
+  savedCoins[2] = CENT_50;
+  savedCoins[3] = CENT_20;
+  savedCoins[4] = CENT_10;
+  savedCoins[5] = CENT_5;
+  savedCoins[6] = CENT_2;
+  savedCoins[7] = CENT_1;
+}
+
+float coinProbability[8];
+void calculateCoins(){
+  uint32_t deltaCoil1, deltaCoil2;
+  float deltaSizePot, deltaSizeIR, deltaMass;
+  float probCoil1, probCoil2, probSizePot, probSizeIR, probMass;
+  for(uint8_t i = 0; i < 8; i++){
+
+    deltaCoil1 = abs(savedCoins[i].coil1 - test_coin.coil1);
+    if(deltaCoil1 <= 2) probCoil1 = 100; //68.2% skalirano na 100
+    else if(deltaCoil1 <= 4) probCoil1 = 40; //27.2% skalirano za isti faktor
+    else if(deltaCoil1 <= 6) probCoil1 = 6;  //4.1% skalirano za isti faktor
+    else probCoil1 = 0.3f;
+
+    deltaCoil2 = abs(savedCoins[i].coil2 - test_coin.coil2);
+    if(deltaCoil2 <= 2) probCoil2 = 100; //68.2% skalirano na 100
+    else if(deltaCoil2 <= 4) probCoil2 = 40; //27.2% skalirano za isti faktor
+    else if(deltaCoil2 <= 6) probCoil2 = 6;  //4.1% skalirano za isti faktor
+    else probCoil2 = 0.3f;
+
+    deltaSizePot = abs(savedCoins[i].sizePot - test_coin.sizePot);
+    if(deltaSizePot <= 0.7f) probSizePot = 100; //68.2% skalirano na 100
+    else if(deltaSizePot <= 1.4f) probSizePot = 40; //27.2% skalirano za isti faktor
+    else if(deltaSizePot <= 2.1f) probSizePot = 6;  //4.1% skalirano za isti faktor
+    else probSizePot = 0.3f;
+
+    deltaSizeIR = abs(savedCoins[i].sizeIR - test_coin.sizeIR);
+    if(deltaSizeIR <= 0.6f) probSizeIR = 100; //68.2% skalirano na 100
+    else if(deltaSizeIR <= 1.2f) probSizeIR = 40; //27.2% skalirano za isti faktor
+    else if(deltaSizeIR <= 1.8f) probSizeIR = 6;  //4.1% skalirano za isti faktor
+    else probSizeIR = 0.3f;
+
+    deltaMass = abs(savedCoins[i].mass - test_coin.mass);
+    if(deltaMass <= 0.17f) probMass = 100; //68.2% skalirano na 100
+    else if(deltaMass <= 0.34f) probMass = 40; //27.2% skalirano za isti faktor
+    else if(deltaMass <= 0.51f) probMass = 6;  //4.1% skalirano za isti faktor
+    else probMass = 0.3f;
+
+    coinProbability[i] = exp((log(probCoil1) + log(probCoil2)  + log(probSizePot) + log(probSizeIR) + log(probMass)) / 5.0);
+    Serial.print("Vjerojatnost da je kovanica ");
+    Serial.print(savedCoins[i].name);
+    Serial.print(" iznosi ");
+    Serial.print(coinProbability[i]);
+    Serial.println("%");
+  }
+  delay(100);
+  uint8_t count = 0;
+  for(int i = 0; i < 8; i++){
+    if(coinProbability[i] > 50) count++;
+  }
+  if (count != 1) {
+    servoSort[7].write(90);
+    delay(100);
+    servoTop.write(180);
+    delay(1000);
+    servoTop.write(90);
+    delay(1000);
+    servoSort[7].write(0);
+  } else{
+    for(int i = 0; i < 7; i++){
+      if(coinProbability[i] > 50.0) {
+        servoSort[i].write(90);
+        delay(100);
+        servoTop.write(180);
+        delay(1000);
+        servoTop.write(90);
+        delay(1000);
+        servoSort[i].write(0);
+      }
+    }
+    if(coinProbability[7] > 50){
+      servoTop.write(180);
+      delay(1000);
+      servoTop.write(90);
+      delay(1000);
+      delay(1000);
+    }
+  }
+}
+
+coin_t calibrationCoin[5];
+void printCoin(){
+  Serial.println(test_coin.name);
+  Serial.print("Prva mjera vodljivosti kovanice = ");
+  Serial.println(test_coin.coil1);
+//  Serial.print("Druga mjera vodljivosti kovanice = ");
+//  Serial.println(test_coin.coil2);
+//  Serial.print("Promjer kovanice potenciometrom = ");
+//  Serial.println(test_coin.sizePot);
+  Serial.print("Promjer kovanice IR diodom = ");
+  Serial.println(test_coin.sizeIR);
+  Serial.print("Masa kovanice u gramima = ");
+  Serial.println(test_coin.mass);
+ /* 
+  static uint8_t num = 0;
+  calibrationCoin[num] = test_coin;
+  num++;
+  if(num == 5){
+    float coil1sum = 0;
+    float sizeIRsum = 0;
+    float masssum = 0;
+    for(int i = 0; i < 5; i++){
+      coil1sum += (float) calibrationCoin[i].coil1;
+      sizeIRsum += calibrationCoin[i].sizeIR;
+      masssum += calibrationCoin[i].mass;
+    }
+    float coil1avg = coil1sum/5;
+    float sizeIRavg = sizeIRsum/5;
+    float massavg = masssum/5;
+    float coil1sq = 0;
+    float sizeIRsq = 0;
+    float masssq = 0;
+    for(int i = 0; i < 5; i++){
+      coil1sq += pow((float) calibrationCoin[i].coil1 - coil1avg, 2.0);
+      sizeIRsq += pow((float) calibrationCoin[i].sizeIR - sizeIRavg, 2.0);
+      masssq += pow((float) calibrationCoin[i].mass - massavg, 2.0);
+    }
+    float coil1sig = sqrt(coil1sq / 5.0);
+    float sizeIRsig = sqrt(sizeIRsq / 5.0);
+    float masssig = sqrt(masssq / 5.0);
+    Serial.print("coil1 = ");
+    Serial.print(coil1avg);
+    Serial.print(" i sigma je ");
+    Serial.println(coil1sig);
+    
+    Serial.print("sizeIR = ");
+    Serial.print(sizeIRavg);
+    Serial.print(" i sigma je ");
+    Serial.println(sizeIRsig);
+
+    Serial.print("mass = ");
+    Serial.print(massavg);
+    Serial.print(" i sigma je ");
+    Serial.println(masssig);
+
+  }
+*/
+
+}
+
 
 //-------------------------------------------------- ZAVOJNICE -------------------------------//
 void startCoils(){
@@ -219,16 +301,12 @@ void readScale(){
     Serial.println("Error, masa nije izmjerena");
   }
   test_coin.mass = coinMass; //sacuvati masu kovanice
+
+  startCoils();
+  blinkRed();
   printCoin(); //KRAJ PUTA KOVANICE
   calculateCoins();
-  blinkRed();
-  startCoils();
   
-  //DODATI OTVORITI PRAVA VRATASCA DOLJE
-  delay(100);
-  servoTop.write(180);
-  delay(1000);
-  servoTop.write(90);
-  delay(200);
+  
   
 }
