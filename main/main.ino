@@ -5,7 +5,9 @@ void setup() {
   setupServos();
   startIR();
   setupScale();
+  setupLED();
   startCoils();
+  loadCoins();
 
   delay(1000);
   Serial.begin(9600);
@@ -16,5 +18,4 @@ void loop() {
   //delay(10);
   readIR();
   readCoil();
-  
 }
