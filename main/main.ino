@@ -2,20 +2,25 @@
 
 
 void setup() {
+  setupLED();
+  setupLCD();
+  setupBuzzer();
+  setupButtons();
+  setupPot();
   setupServos();
   startIR();
   setupScale();
-  setupLED();
   startCoils();
   loadCoins();
 
   delay(1000);
+
+  resetLED();
   Serial.begin(9600);
   Serial.println("Pocetak rada");
 }
 
 void loop() {
-  //delay(10);
-  readIR();
-  readCoil();
+  readButtons();
+  readPot();
 }
